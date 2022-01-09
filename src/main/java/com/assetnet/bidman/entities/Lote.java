@@ -20,12 +20,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "tb_lote")
 public class Lote implements Serializable{
@@ -60,5 +62,4 @@ public class Lote implements Serializable{
 	@JoinColumn(name = "editaldetalhado_id")
 	private EditalDetalhado editalDetalhado;
         
-
 }

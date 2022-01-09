@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,14 +16,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
@@ -30,6 +32,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "tb_detalhes")
 public class EditalDetalhado implements Serializable{
@@ -38,12 +41,14 @@ public class EditalDetalhado implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
+	
 	private String edital;
 	private String edle;
 	private int situacao;
 	private boolean permitePF;
-	private String tipo;
+	private int tipo;
 	private String unidade;
 	private String orgao;
 	private String cidade;
@@ -59,9 +64,10 @@ public class EditalDetalhado implements Serializable{
 	@OneToMany(mappedBy = "editalDetalhado")
 	private List<Lote> lotes = new ArrayList<>();
 	
-	SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	@Column(insertable = false, updatable = false)
+	private SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
-	
+		
 	public void setDataInicioPropostas(String dataInicio) {
 	    
 		try {
@@ -110,7 +116,5 @@ public class EditalDetalhado implements Serializable{
 		}	
 		   
 	}
-	
-	
-	
+
 }

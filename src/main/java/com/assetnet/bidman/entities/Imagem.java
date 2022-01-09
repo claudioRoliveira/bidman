@@ -30,7 +30,9 @@ public class Imagem implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
+	
 	private String src;
 	private String min;
     private int w;

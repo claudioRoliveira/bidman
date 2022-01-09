@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -32,7 +34,9 @@ public class Edital implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private Long id;
+	
 	private String edital;
 	private String edle;
 	private int codigoSituacao;
@@ -61,16 +65,16 @@ public class Edital implements Serializable{
 	    
 	}
 	
-public void setDataAberturaLances(String dataAbertura) {
-	    
-	try {
-		Date date = sdf.parse(dataAbertura);
-		this.dataAberturaLances= date.toInstant();
-	} catch (ParseException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}	
-	   
+	public void setDataAberturaLances(String dataAbertura) {
+		    
+		try {
+			Date date = sdf.parse(dataAbertura);
+			this.dataAberturaLances= date.toInstant();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		   
 	}
 	
 	
