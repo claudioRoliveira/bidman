@@ -10,10 +10,14 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+import com.assetnet.bidman.entities.EditaisDisponiveis;
+import com.assetnet.bidman.entities.Edital;
 import com.assetnet.bidman.entities.EditalDetalhado;
 import com.assetnet.bidman.entities.Imagem;
 import com.assetnet.bidman.entities.Lote;
+import com.assetnet.bidman.entities.Situacao;
 import com.assetnet.bidman.repositories.EditalDetalhadoRepository;
+import com.assetnet.bidman.repositories.EditalRepository;
 import com.assetnet.bidman.repositories.ImagemRepository;
 import com.assetnet.bidman.repositories.LoteRepository;
 
@@ -22,6 +26,9 @@ public class BidmanApplication {
 
 	@Autowired
 	private EditalDetalhadoRepository editaldetailRepo;
+	
+	@Autowired
+	private EditalRepository editalRepo;
 	
 	@Autowired
 	private ImagemRepository imagemRepo;
@@ -45,19 +52,29 @@ public class BidmanApplication {
 	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
 		
 		return args -> {
-			EditalDetalhado editalAtual = restTemplate.getForObject("http://www25.receita.fazenda.gov.br/sle-sociedade/api/edital/717800/8/2021", EditalDetalhado.class);
-			editaldetailRepo.save(editalAtual);
 			
-			for(Lote lote: editalAtual.getLotes()) {
-				lote.setEditalDetalhado(editalAtual);
-			}
-			loteRepo.saveAll(editalAtual.getLotes());
+			EditaisDisponiveis disponiveis = restTemplate.getForObject("http://www25.receita.fazenda.gov.br/sle-sociedade/api/editais-disponiveis", EditaisDisponiveis.class);
 			
-			for(Lote lot: editalAtual.getLotes()) {
-				for(Imagem figura : lot.getImagens()) {
-					figura.setLote(lot);
+			for(Situacao status : disponiveis.getSituacoes()) {
+				for(Edital edital : status.getLista()) {
+					if(editalRepo.findByEdle(edital.getEdle()) == null) {
+						editalRepo.save(edital);
+						EditalDetalhado editalAtual = restTemplate.getForObject("http://www25.receita.fazenda.gov.br/sle-sociedade/api/edital/" + edital.getEdle(), EditalDetalhado.class);
+						editaldetailRepo.save(editalAtual);
+						for(Lote lote: editalAtual.getLotes()) {
+							lote.setEditalDetalhado(editalAtual);
+						}
+						loteRepo.saveAll(editalAtual.getLotes());
+						for(Lote lot: editalAtual.getLotes()) {
+							for(Imagem figura : lot.getImagens()) {
+								figura.setLote(lot);
+							}
+							imagemRepo.saveAll(lot.getImagens());
+						}
+					}
+					
 				}
-				imagemRepo.saveAll(lot.getImagens());
+				
 			}
 			
 		};

@@ -12,30 +12,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assetnet.bidman.entities.Edital;
-import com.assetnet.bidman.repositories.EditalRepository;
+import com.assetnet.bidman.entities.EditalDetalhado;
+import com.assetnet.bidman.repositories.EditalDetalhadoRepository;
 
 @RestController
-@RequestMapping(value = "/disponiveis")
-public class EditalController {
+@RequestMapping(value = "/detalhes")
+public class EditalDetallhadoController {
 	
 	@Autowired
-	private EditalRepository repository;
+	private EditalDetalhadoRepository repository;
 	
 	@GetMapping
-	public ResponseEntity<List<Edital>> findAll() {
-		List<Edital> result = repository.findAll();
+	public ResponseEntity<List<EditalDetalhado>> findAll() {
+		List<EditalDetalhado> result = repository.findAll();
 		return ResponseEntity.ok(result);
 	}
 	
 	@GetMapping(value = "/paginado")
-	public ResponseEntity<Page<Edital>> findAll(Pageable pageable) {
-		Page<Edital> result = repository.findAll(pageable);
+	public ResponseEntity<Page<EditalDetalhado>> findAll(Pageable pageable) {
+		Page<EditalDetalhado> result = repository.findAll(pageable);
 		return ResponseEntity.ok(result);
 	}
 	
 	@GetMapping(value = "/edle")
-	public ResponseEntity<Edital> findByEdle(@RequestParam(defaultValue = "") String edle) {
-		Edital result = (Edital) repository.findByEdle(edle);
+	public ResponseEntity<EditalDetalhado> findByEdle(@RequestParam(defaultValue = "") String edle) {
+		EditalDetalhado result = (EditalDetalhado) repository.findByEdle(edle);
 		return ResponseEntity.ok(result);
 	}
 
