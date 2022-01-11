@@ -12,31 +12,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assetnet.bidman.entities.Edital;
-import com.assetnet.bidman.repositories.EditalRepository;
+import com.assetnet.bidman.services.EditalService;
 
 @RestController
 @RequestMapping(value = "/disponiveis")
 public class EditalController {
 	
 	@Autowired
-	private EditalRepository repository;
+	private EditalService service;
 	
+		
 	@GetMapping
-	public ResponseEntity<List<Edital>> findAll() {
-		List<Edital> result = repository.findAll();
-		return ResponseEntity.ok(result);
-	}
-	
-	@GetMapping(value = "/paginado")
 	public ResponseEntity<Page<Edital>> findAll(Pageable pageable) {
-		Page<Edital> result = repository.findAll(pageable);
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(service.findAll(pageable));
 	}
 	
 	@GetMapping(value = "/edle")
 	public ResponseEntity<Edital> findByEdle(@RequestParam(defaultValue = "") String edle) {
-		Edital result = (Edital) repository.findByEdle(edle);
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(service.findByEdle(edle));
+	}
+	
+	@GetMapping(value = "/update")
+	public ResponseEntity<String> updateList() {
+		return ResponseEntity.ok(service.updateList());
 	}
 
 }

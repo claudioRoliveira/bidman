@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,11 +48,6 @@ public class Edital implements Serializable{
 	@Setter(AccessLevel.NONE) private Instant dataInicioPropostas;
 	@Setter(AccessLevel.NONE) private Instant dataAberturaLances;
 	private int lotes;
-	
-//	@JsonIgnore
-//	@Column(insertable = false, updatable = false)
-//	private SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	
 	
 	public void setDataInicioPropostas(String dataInicio) {
 		SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm");

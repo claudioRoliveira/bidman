@@ -8,16 +8,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -56,7 +58,9 @@ public class EditalDetalhado implements Serializable{
 	@Setter(AccessLevel.NONE) private Instant dataFimPropostas;
 	@Setter(AccessLevel.NONE) private Instant dataAberturaLances;
 	@Setter(AccessLevel.NONE) private Instant dataClassificacao;
+	@Lob
 	private String formaContato;
+	@Lob
 	private String dadosPublicacao;
 	private boolean mostrarColunaProposta;
 	private int numeroRecursos;
@@ -64,7 +68,7 @@ public class EditalDetalhado implements Serializable{
 	@OneToMany(mappedBy = "editalDetalhado")
 	private List<Lote> lotes = new ArrayList<>();
 	
-	@Column(insertable = false, updatable = false)
+	@Transient
 	private SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	
 		
