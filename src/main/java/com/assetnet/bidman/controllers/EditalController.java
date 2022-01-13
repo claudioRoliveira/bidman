@@ -18,7 +18,7 @@ import com.assetnet.bidman.services.EditalService;
 @RequestMapping(value = "/disponiveis")
 public class EditalController {
 	
-	@Autowired
+	
 	private EditalService service;
 	
 		

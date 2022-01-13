@@ -55,6 +55,9 @@ public class Lote implements Serializable{
 	private boolean permiteVisualizarOpcoesRedesSocial;
 	
 	@OneToMany(mappedBy = "lote")
+	private List<ItensDetalhesLote> itensDetalhesLote;
+	
+	@OneToMany(mappedBy = "lote")
 	private List<Imagem> imagens= new ArrayList<>();
 	
 	@JsonIgnore
